@@ -1,0 +1,20 @@
+[
+  {
+    "CustomerId": "e7bffc84-ccbd-4e37-aa3e-75878b021a78",
+    "Name": "Keshav",
+    "Address": "6/1, 2/2, Dr. E. A. Cooray Mawatha",
+    "Gender": "M"
+  },
+  {
+    "CustomerId": "9af0f235-f390-4471-816c-f5d2a99127ab",
+    "Name": "Mary",
+    "Address": "5/2, Old Quarry Road, Mount Lavinia",
+    "Gender": "F"
+  },
+  {
+    "CustomerId": "b243d43c-04db-4089-a0ac-d7353bac8f58",
+    "Name": "Andrew",
+    "Address": "3/4, Anderson place, Mattakuliya",
+    "Gender": "M"
+  }
+]

@@ -1,15 +1,10 @@
-import * as eks from "aws-cdk-lib/aws-eks";
-import { InstanceType, IVpc } from "aws-cdk-lib/aws-ec2";
-import { Role } from "aws-cdk-lib/aws-iam";
-import { Construct } from "constructs";
+import * as eks from 'aws-cdk-lib/aws-eks';
+import { InstanceType, IVpc } from 'aws-cdk-lib/aws-ec2';
+import { Role } from 'aws-cdk-lib/aws-iam';
+import { Construct } from 'constructs';
 
-export const createEksCluster = (
-  scope: Construct,
-  vpc: IVpc,
-  eksAdminRole: Role,
-  serviceName: string
-) => {
-  return new eks.Cluster(scope, "EksCluster", {
+export const createEksCluster = (scope: Construct, vpc: IVpc, eksAdminRole: Role, serviceName: string) => {
+  return new eks.Cluster(scope, 'EksCluster', {
     vpc,
     defaultCapacity: 0,
     mastersRole: eksAdminRole,
@@ -29,7 +24,7 @@ export const createEksNodeGroup = (
   serviceName: string,
   instanceType: string
 ) => {
-  return new eks.Nodegroup(scope, "EksNodeGroup", {
+  return new eks.Nodegroup(scope, 'EksNodeGroup', {
     nodegroupName: `${serviceName}-eks-nodegroup`,
     cluster,
     amiType: eks.NodegroupAmiType.AL2_X86_64,

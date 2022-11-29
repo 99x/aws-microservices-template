@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-app-prod
+spec:
+  selector:
+    matchLabels:
+      app: order-app-prod
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: order-app-prod
+    spec:
+      containers:
+        - image: ${IMAGE_URL}
+          imagePullPolicy: Always
+          name: order-app-prod
+          ports:
+            - containerPort: 5000
+              protocol: TCP
+          env:
+            - name: RDS_USERNAME
+              value: ${RDS_USERNAME}
+            - name: RDS_PASSWORD
+              value: ${RDS_PASSWORD}
+            - name: RDS_HOSTNAME
+              value: ${RDS_HOSTNAME}
+            - name: STAGE
+              value: ${STAGE}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-app-prod
+spec:
+  selector:
+    app: order-app-prod
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000

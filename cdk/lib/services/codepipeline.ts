@@ -1,23 +1,15 @@
-import * as codepipeline from "aws-cdk-lib/aws-codepipeline";
-import * as codepipeline_actions from "aws-cdk-lib/aws-codepipeline-actions";
-import * as codecommit from "aws-cdk-lib/aws-codecommit";
-import * as ecr from "aws-cdk-lib/aws-ecr";
-import { Project } from "aws-cdk-lib/aws-codebuild";
-import { DatabaseInstance } from "aws-cdk-lib/aws-rds";
-import { Cluster } from "aws-cdk-lib/aws-eks";
-import { Construct } from "constructs";
+import * as codepipeline from 'aws-cdk-lib/aws-codepipeline';
+import * as codepipeline_actions from 'aws-cdk-lib/aws-codepipeline-actions';
+import * as codecommit from 'aws-cdk-lib/aws-codecommit';
+import * as ecr from 'aws-cdk-lib/aws-ecr';
+import { Project } from 'aws-cdk-lib/aws-codebuild';
+import { DatabaseInstance } from 'aws-cdk-lib/aws-rds';
+import { Cluster } from 'aws-cdk-lib/aws-eks';
+import { Construct } from 'constructs';
 
-import {
-  createBuild,
-  createBuildForDeploying,
-  createBuildForTest
-} from "./codebuild";
+import { createBuild, createBuildForDeploying, createBuildForTest } from './codebuild';
 
-const createCodeBuildAction = (
-  actionName: string,
-  project: Project,
-  input: codepipeline.Artifact
-) => {
+const createCodeBuildAction = (actionName: string, project: Project, input: codepipeline.Artifact) => {
   return new codepipeline_actions.CodeBuildAction({
     actionName,
     project,
@@ -37,41 +29,37 @@ export const createPipeline = (
   const sourceOutput = new codepipeline.Artifact();
 
   const sourceAction = new codepipeline_actions.CodeCommitSourceAction({
-    actionName: "CodeCommit",
+    actionName: 'CodeCommit',
     repository: coderepository,
     branch: env,
     output: sourceOutput
   });
 
   const buildAction = createCodeBuildAction(
-    "BuildDockerAndPushToEcr",
+    'BuildDockerAndPushToEcr',
     createBuild(scope, ecrRepo, env, serviceName),
     sourceOutput
   );
 
-  const test = createCodeBuildAction(
-    "UnitTests",
-    createBuildForTest(scope, env, serviceName),
-    sourceOutput
-  );
+  const test = createCodeBuildAction('UnitTests', createBuildForTest(scope, env, serviceName), sourceOutput);
 
   let stages: codepipeline.StageProps[] = [
     {
-      stageName: "Source",
+      stageName: 'Source',
       actions: [sourceAction]
     },
     {
-      stageName: "Test",
+      stageName: 'Test',
       actions: [test]
     },
     {
-      stageName: "Build",
+      stageName: 'Build',
       actions: [buildAction]
     }
   ];
 
   const deploy = createCodeBuildAction(
-    "DeployToEksFromEcr",
+    'DeployToEksFromEcr',
     createBuildForDeploying(scope, cluster, ecrRepo, db, env, serviceName),
     sourceOutput
   );
@@ -79,7 +67,7 @@ export const createPipeline = (
     ...stages,
 
     {
-      stageName: "Deploy",
+      stageName: 'Deploy',
       actions: [deploy]
     }
   ];

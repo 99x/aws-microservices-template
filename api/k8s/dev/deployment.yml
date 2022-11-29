@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-app-dev
+spec:
+  selector:
+    matchLabels:
+      app: order-app-dev
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: order-app-dev
+    spec:
+      containers:
+        - image: ${IMAGE_URL}
+          imagePullPolicy: Always
+          name: order-app-dev
+          ports:
+            - containerPort: 5001
+              protocol: TCP
+          env:
+            - name: RDS_USERNAME
+              value: ${RDS_USERNAME}
+            - name: RDS_PASSWORD
+              value: ${RDS_PASSWORD}
+            - name: RDS_HOSTNAME
+              value: ${RDS_HOSTNAME}
+            - name: STAGE
+              value: ${STAGE}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-app-dev
+spec:
+  selector:
+    app: order-app-dev
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5001

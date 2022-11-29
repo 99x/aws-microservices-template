@@ -1,0 +1,22 @@
+{
+  "name": "order-app-api",
+  "version": "0.0.1",
+  "description": "Order application for AWS Architecture Template",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "jest"
+  },
+  "author": "Keshav Kumaresan <keshavk@99x.io>",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.20",
+    "promise-mysql": "^5.2.0",
+    "sequelize": "^6.26.0"
+  },
+  "devDependencies": {
+    "jest": "^29.3.1"
+  }
+}
