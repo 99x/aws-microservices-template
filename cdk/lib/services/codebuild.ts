@@ -26,7 +26,7 @@ export const createBuild = (scope: Construct, ecrRepo: ecr.Repository, env: stri
       version: '0.2',
       phases: {
         pre_build: {
-          commands: ['export TAG=${CODEBUILD_RESOLVED_SOURCE_VERSION}']
+          commands: ['cd api', 'export TAG=${CODEBUILD_RESOLVED_SOURCE_VERSION}']
         },
         build: {
           commands: [
@@ -58,7 +58,7 @@ export const createBuildForTest = (scope: Construct, env: string, serviceName: s
       version: '0.2',
       phases: {
         build: {
-          commands: ['npm install', 'npm test']
+          commands: ['cd api', 'npm install', 'npm test']
         }
       }
     })
@@ -95,6 +95,7 @@ export const createBuildForDeploying = (
       phases: {
         pre_build: {
           commands: [
+            'cd api',
             'export TAG=${CODEBUILD_RESOLVED_SOURCE_VERSION}',
             'aws eks --region $AWS_REGION update-kubeconfig --name $CLUSTER_NAME'
           ]
@@ -116,7 +117,7 @@ export const createBuildForDeploying = (
             'export STAGE=' + env,
             'for filename in k8s/' +
               env +
-              '/*.yaml; do envsubst < $filename > ${TMP} | kubectl apply -f ${TMP} || continue ; done;',
+              '/*.yml; do envsubst < $filename > ${TMP} | kubectl apply -f ${TMP} || continue ; done;',
             'echo "Initial Deploy complete"'
           ]
         }
