@@ -79,7 +79,7 @@ app.patch('/api/customer-orders', async (req, res) => {
     const { order_id = null } = req.body;
     let response = [];
     if (order_id) {
-      const order = db.order.findOne({ where: { OrderId: order_id } });
+      const order = await db.order.findOne({ where: { OrderId: order_id } });
       if (!order) {
         throw new Error('Order not found');
       }
