@@ -2,19 +2,22 @@ module.exports = (sequelize, Sequelize) => {
   return sequelize.define(
     'Customer',
     {
-      CustomerId: {
+      OrderId: {
         type: Sequelize.UUID,
         primaryKey: true,
         allowNull: false
       },
-      Name: {
-        type: Sequelize.STRING
+      CustomerId: {
+        type: Sequelize.UUID
       },
-      Address: {
-        type: Sequelize.STRING
+      ProductId: {
+        type: Sequelize.UUID
       },
-      Gender: {
-        type: Sequelize.STRING(1)
+      SupplierId: {
+        type: Sequelize.UUID
+      },
+      Status: {
+        type: Sequelize.STRING
       }
     },
     {

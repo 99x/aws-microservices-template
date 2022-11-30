@@ -13,6 +13,15 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.customer = require('../models/Customer')(sequelize, Sequelize);
+db.order = require('../models/Order')(sequelize, Sequelize);
+
+db.customer.hasMany(db.order, {
+  foreignKey: 'CustomerId'
+});
+
+db.order.belongsTo(db.customer, {
+  foreignKey: 'CustomerId'
+});
 
 const createDB = async (db) => {
   return db.query(`CREATE DATABASE IF NOT EXISTS ${DATABASE_NAME};`);
