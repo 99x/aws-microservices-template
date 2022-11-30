@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
   return sequelize.define(
-    'Customer',
+    'Order',
     {
       OrderId: {
         type: Sequelize.UUID,
