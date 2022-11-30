@@ -1,4 +1,4 @@
-# Runbook to setup and deploy the CDK and Order NodeJS applications
+# Runbook to setup and deploy the CDK and Order App NodeJS applications
 
 ## Pre-requisites
 
